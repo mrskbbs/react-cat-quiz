@@ -1,3 +1,6 @@
 .image {
     height: 20em;
 }
+.imageLoading {
+    display: none;
+}

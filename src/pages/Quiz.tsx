@@ -1,4 +1,4 @@
-import QuizCard from "../components/QuizCard/QuizCard";
+import { QuizCard } from "../components/QuizCard/QuizCard";
 
 const Quiz = () => {
     return (
