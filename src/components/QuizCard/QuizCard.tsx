@@ -15,13 +15,7 @@ export interface QuestionData {
 }
 
 export const QuizCard = () => {
-    const questions = useRef([] as QuestionData[]);
-    const [questionsPassed, setQuestionsPassed] = useState(0);
-    const score = useRef(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-
-    questions.current = [
+    const questions = useRef([
         {
             url: "https://cdn2.thecatapi.com/images/pzIURJPra.jpg",
             answers: ["Munchkin"],
@@ -82,12 +76,81 @@ export const QuizCard = () => {
             options: ["Ocicat", "Selkirk Rex", "Japanese Bobtail"],
             choice: "",
         },
-    ];
+    ] as QuestionData[]);
+    const [questionsPassed, setQuestionsPassed] = useState(0);
+    const score = useRef(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+
+    // questions.current = [
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/pzIURJPra.jpg",
+    //         answers: ["Munchkin"],
+    //         options: ["Munchkin", "British Shorthair", "Pixie-bob"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/BtoHr0-4b.jpg",
+    //         answers: ["Norwegian Forest Cat"],
+    //         options: ["Khao Manee", "Norwegian Forest Cat", "Maine Coon"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/AnSMHMGvb.jpg",
+    //         answers: ["Norwegian Forest Cat"],
+    //         options: ["Norwegian Forest Cat", "Cymric", "Burmilla"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/VsxceZVop.jpg",
+    //         answers: ["Toyger"],
+    //         options: ["Toyger", "Cyprus", "Pixie-bob"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/2CL5AqIfV.png",
+    //         answers: ["Toyger"],
+    //         options: ["Toyger", "Korat", "Cymric"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/XLLAS_R9F.jpg",
+    //         answers: ["Birman"],
+    //         options: ["Kurilian", "Bombay", "Birman"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/LxcLIxuVT.jpg",
+    //         answers: ["Munchkin"],
+    //         options: ["Toyger", "Munchkin", "Exotic Shorthair"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/eF3HSMIB_.jpg",
+    //         answers: ["Ragdoll"],
+    //         options: ["Ocicat", "Oriental", "Ragdoll"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/VGzO6r82_.jpg",
+    //         answers: ["Singapura"],
+    //         options: ["Chausie", "Arabian Mau", "Singapura"],
+    //         choice: "",
+    //     },
+    //     {
+    //         url: "https://cdn2.thecatapi.com/images/5EDC-TDcN.jpg",
+    //         answers: ["Ocicat"],
+    //         options: ["Ocicat", "Selkirk Rex", "Japanese Bobtail"],
+    //         choice: "",
+    //     },
+    // ];
 
     const userPick = useCallback(
         (value: string) => {
             if (questions.current[questionsPassed].answers.includes(value)) score.current++;
-            questions.current[questionsPassed].choice = value.slice();
+            questions.current[questionsPassed].choice = value;
+
+            console.log(questions.current);
             setQuestionsPassed((prev) => prev + 1);
         },
         [questionsPassed]
@@ -102,7 +165,7 @@ export const QuizCard = () => {
     //                     new URLSearchParams({
     //                         limit: "5",
     //                         has_breeds: "1",
-    //                         // api_key: API_KEYS.catAPI,
+    //                         api_key: API_KEYS.catAPI,
     //                     })
     //             );
     //             const data = await response.json();
@@ -132,7 +195,6 @@ export const QuizCard = () => {
     //                 shuffle(questions.current[last].options);
     //             }
     //             setIsLoading(false);
-    //             console.log(questions.current);
     //         } catch (e) {
     //             setIsError(true);
     //         }
@@ -147,7 +209,7 @@ export const QuizCard = () => {
         return <div>Loading...</div>;
     }
 
-    if (questionsPassed >= questions.current.length) {
+    if (questionsPassed >= questions.current.length && questions.current.length !== 0) {
         return (
             <Navigate
                 to={APP_PATHS.quiz + "/results"}

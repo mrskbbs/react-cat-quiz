@@ -2,3 +2,9 @@ html,
 body {
     margin: 0em;
 }
+.correct {
+    color: rgb(159, 199, 99);
+}
+.wrong {
+    color: rgb(203, 91, 91);
+}
