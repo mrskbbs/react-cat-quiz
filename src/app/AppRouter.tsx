@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { APP_PATHS } from "../configs/RouterPaths";
+import APP_PATHS from "../configs/RouterPaths";
 import Home from "../pages/Home";
 import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
