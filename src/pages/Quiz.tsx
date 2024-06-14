@@ -1,5 +1,11 @@
+import QuizCard from "../components/QuizCard/QuizCard";
+
 const Quiz = () => {
-    return <div>this is Quiz</div>;
+    return (
+        <div>
+            <QuizCard />
+        </div>
+    );
 };
 
 export default Quiz;

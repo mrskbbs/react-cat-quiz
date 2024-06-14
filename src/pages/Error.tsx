@@ -14,7 +14,7 @@ interface RouteError {
     statusText: string;
 }
 
-const NotFound = () => {
+const Error = () => {
     const error = useRouteError() as RouteError;
     console.log(error);
     return (
@@ -25,4 +25,4 @@ const NotFound = () => {
     );
 };
 
-export default NotFound;
+export default Error;
