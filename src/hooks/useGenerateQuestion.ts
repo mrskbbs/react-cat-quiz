@@ -1,40 +1,40 @@
 import { useRef } from "react";
-import BREEDS from "../data/Breeds";
 import { getRandomBreedIndex, randomInt, shuffle } from "../misc/misc";
+import { IBreedJson } from "./useGetBreeds";
 
 interface IQuestionData {
     answer: string;
     options: string[];
 }
 
-function useGenerateQuestion(target: string) {
-    // const question = useRef({} as IQuestionData);
-    const question: IQuestionData = {
+function useGenerateQuestion(target: string, breeds: IBreedJson[]) {
+    const question = useRef({} as IQuestionData);
+    question.current = {
         answer: "",
         options: [],
     };
 
     const answerIndex = getRandomBreedIndex(target);
-    question.answer = BREEDS[answerIndex][target] as string;
-    question.options.push(question.answer);
+    question.current.answer = breeds[answerIndex][target] as string;
+    question.current.options.push(question.current.answer);
 
     for (let i = 0; i < 3; i++) {
-        let randomOption = BREEDS[randomInt(BREEDS.length - 1)][target] as string;
+        let randomOption = breeds[randomInt(breeds.length - 1)][target] as string;
         while (
             randomOption === undefined ||
             randomOption.replace(" ", "") === "" ||
-            question.options.includes(randomOption)
+            question.current.options.includes(randomOption)
         ) {
-            randomOption = BREEDS[randomInt(BREEDS.length - 1)][target] as string;
+            randomOption = breeds[randomInt(breeds.length - 1)][target] as string;
         }
-        question.options.push(randomOption);
+        question.current.options.push(randomOption);
     }
 
-    shuffle(question.options);
+    shuffle(question.current.options);
 
     return {
-        options: question.options,
-        answer: question.answer,
+        options: question.current.options,
+        answer: question.current.answer,
         answerIndex: answerIndex,
     };
 }

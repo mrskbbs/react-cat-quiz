@@ -1,9 +1,9 @@
 import { createContext, FunctionComponent, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { randomInt } from "../misc/misc";
 import QuizCard from "../components/QuizCard/QuizCard";
-import { Navigate } from "react-router-dom";
-import App from "../app/App";
-import APP_PATHS from "../configs/RouterPaths";
+import { Navigate, useLocation } from "react-router-dom";
+import { APP_PATHS } from "../configs/RouterPaths";
+import { IBreedJson } from "../hooks/useGetBreeds";
 
 export interface IQuizData {
     maxPages: number;
@@ -14,6 +14,7 @@ export interface IQuizData {
 export interface IQuizContext {
     quizState: IQuizData;
     setQuizState: React.Dispatch<React.SetStateAction<IQuizData>>;
+    breeds: IBreedJson[];
 }
 
 export const QuizContext = createContext({
@@ -21,6 +22,7 @@ export const QuizContext = createContext({
 } as IQuizContext);
 
 const QuizCardContainer = () => {
+    const { breeds } = useLocation().state;
     const [quizState, setQuizState] = useState({
         maxPages: 5,
         pagesPassed: 0,
@@ -49,7 +51,7 @@ const QuizCardContainer = () => {
         );
     }
     return (
-        <QuizContext.Provider value={{ quizState: quizState, setQuizState: setQuizState }}>
+        <QuizContext.Provider value={{ quizState: quizState, setQuizState: setQuizState, breeds: breeds }}>
             <QuizCard target={variants[randomIndex].target} text={variants[randomIndex].text} />
         </QuizContext.Provider>
     );

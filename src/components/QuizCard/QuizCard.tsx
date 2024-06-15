@@ -3,8 +3,8 @@ import { QuizContext } from "../../pages/Quiz";
 import { OptionMenu, Option, SubmitOption } from "../OptionMenu/OptionMenu";
 import useGenerateQuestion from "../../hooks/useGenerateQuestion";
 import API_KEYS from "../../configs/APIKeys";
-import BREEDS from "../../data/Breeds";
 import styles from "./QuizCard.module.css";
+import { API_PATHS } from "../../configs/RouterPaths";
 
 interface IQuizCard {
     target: string;
@@ -17,26 +17,30 @@ const SmartImage: FunctionComponent<{ answerIndex: number }> = ({ answerIndex })
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true);
-                let response = await fetch(
-                    "https://api.thecatapi.com/v1/images/search?" +
-                        new URLSearchParams({
-                            breed: BREEDS[answerIndex].name,
-                            api_key: API_KEYS.catAPI,
-                        })
-                );
-
-                const data = (await response.json())[0];
-                imgRef.current.src = data.url;
+    const fetchImage = async () => {
+        try {
+            setIsLoading(true);
+            let response = await fetch(
+                API_PATHS.images +
+                    new URLSearchParams({
+                        breed: context.breeds[answerIndex].name,
+                        api_key: API_KEYS.catAPI,
+                    })
+            );
+            const data = (await response.json())[0];
+            const preload = new Image();
+            preload.src = data.url;
+            preload.onload = () => {
                 setIsLoading(false);
-            } catch (e) {
-                setIsError(true);
-            }
-        };
-        fetchData();
+                imgRef.current.src = preload.src;
+            };
+        } catch (e) {
+            setIsError(true);
+        }
+    };
+
+    useEffect(() => {
+        fetchImage();
     }, [context.quizState.pagesPassed]);
 
     if (isError) {
@@ -56,7 +60,7 @@ const SmartImage: FunctionComponent<{ answerIndex: number }> = ({ answerIndex })
 
 const QuizCard: FunctionComponent<IQuizCard> = ({ target, text }) => {
     const context = useContext(QuizContext);
-    const { options, answer, answerIndex } = useGenerateQuestion(target);
+    const { options, answer, answerIndex } = useGenerateQuestion(target, context.breeds);
 
     return (
         <div>

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import APP_PATHS from "../configs/RouterPaths";
+import { APP_PATHS } from "../configs/RouterPaths";
 interface IQuizResults {
     score: number;
     choices: Record<string, string>;

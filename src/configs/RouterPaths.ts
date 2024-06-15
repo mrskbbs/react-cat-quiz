@@ -1,6 +1,9 @@
-const APP_PATHS = {
+export const APP_PATHS = {
     home: "/",
     quiz: "/quiz",
 };
 
-export default APP_PATHS;
+export const API_PATHS = {
+    breeds: "https://api.thecatapi.com/v1/breeds",
+    images: "https://api.thecatapi.com/v1/images/search?",
+};
