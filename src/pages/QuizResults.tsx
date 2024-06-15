@@ -1,9 +1,8 @@
-import { useLocation } from "react-router-dom";
-import { QuestionData } from "../components/QuizCard/QuizCard";
-
+import { Link, useLocation } from "react-router-dom";
+import APP_PATHS from "../configs/RouterPaths";
 interface IQuizResults {
     score: number;
-    questions: QuestionData[];
+    choices: Record<string, string>;
 }
 
 const QuizResults = () => {
@@ -12,10 +11,11 @@ const QuizResults = () => {
     if (!state) {
         return <div>Invalid entry</div>;
     }
-    const { score, questions } = state as IQuizResults;
+    const { score, choices } = state as IQuizResults;
 
     let message = "";
-    const ratio = score / questions.length;
+    const choicesLength = Object.keys(choices).length;
+    const ratio = score / choicesLength;
     if (ratio === 1.0) {
         message = "Excelent! You know everything about cats!";
     } else if (ratio >= 0.75) {
@@ -32,22 +32,22 @@ const QuizResults = () => {
         <div>
             <div>
                 <h1>
-                    {score}/{questions.length}
+                    {score}/{choicesLength}
                 </h1>
                 <p>{message}</p>
             </div>
             <div>
                 <p>Here are your answers:</p>
-                {questions.map((question) => {
-                    const isCorrect = question.answers.includes(question.choice);
-                    return (
-                        <tr>
-                            <th className={isCorrect ? "correct" : "wrong"}>{question.choice}</th>
-                            <th className="correct">{question.answers.toString()}</th>
-                        </tr>
-                    );
-                })}
+                {Object.keys(choices).map((choice: string) => (
+                    <tr>
+                        <th>{choice}</th>
+                        <th>{choices[choice]}</th>
+                    </tr>
+                ))}
             </div>
+            <Link to={APP_PATHS.home}>
+                <button>Go to home</button>
+            </Link>
         </div>
     );
 };
