@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { getRandomBreedIndex, randomInt, shuffle } from "../misc/misc";
+import { filterEmptyEntries, getRandomBreedIndex, randomInt, shuffle } from "../misc/misc";
 import { IBreedJson } from "./useGetBreeds";
 
 interface IQuestionData {
@@ -14,17 +14,13 @@ function useGenerateQuestion(target: string, breeds: IBreedJson[]) {
         options: [],
     };
 
-    const answerIndex = getRandomBreedIndex(target);
+    const answerIndex = getRandomBreedIndex(target, breeds);
     question.current.answer = breeds[answerIndex][target] as string;
     question.current.options.push(question.current.answer);
 
     for (let i = 0; i < 3; i++) {
         let randomOption = breeds[randomInt(breeds.length - 1)][target] as string;
-        while (
-            randomOption === undefined ||
-            randomOption.replace(" ", "") === "" ||
-            question.current.options.includes(randomOption)
-        ) {
+        while (filterEmptyEntries(randomOption) || question.current.options.includes(randomOption)) {
             randomOption = breeds[randomInt(breeds.length - 1)][target] as string;
         }
         question.current.options.push(randomOption);

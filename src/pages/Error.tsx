@@ -16,11 +16,12 @@ interface RouteError {
 
 const Error = () => {
     const error = useRouteError() as RouteError;
-    console.log(error);
+
     return (
         <>
             <h1>Error {error.status}</h1>
             <p>{error.statusText}</p>
+            <img src={`https://http.cat/${error.status}`} />
         </>
     );
 };

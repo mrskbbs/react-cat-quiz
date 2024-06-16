@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { APP_PATHS } from "../configs/RouterPaths";
+import { generateResultMessage } from "../misc/misc";
+import { useId } from "react";
 interface IQuizResults {
     score: number;
     choices: Record<string, string>;
@@ -7,26 +9,13 @@ interface IQuizResults {
 
 const QuizResults = () => {
     const { state } = useLocation();
+    if (!state) return <div>Invalid entry</div>;
 
-    if (!state) {
-        return <div>Invalid entry</div>;
-    }
     const { score, choices } = state as IQuizResults;
 
-    let message = "";
     const choicesLength = Object.keys(choices).length;
     const ratio = score / choicesLength;
-    if (ratio === 1.0) {
-        message = "Excelent! You know everything about cats!";
-    } else if (ratio >= 0.75) {
-        message = "Impressive! But there's still a room for improvement";
-    } else if (ratio >= 0.5) {
-        message = "Not bad! However I'd study more about cats if I were you";
-    } else if (ratio >= 0.25) {
-        message = "It's alright, next time you'll do better";
-    } else {
-        message = "Clearly you're a dog person";
-    }
+    const message = generateResultMessage(ratio);
 
     return (
         <div>
@@ -39,9 +28,9 @@ const QuizResults = () => {
             <div>
                 <p>Here are your answers:</p>
                 {Object.keys(choices).map((choice: string) => (
-                    <tr>
-                        <th>{choice}</th>
-                        <th>{choices[choice]}</th>
+                    <tr key={useId()}>
+                        <th key={useId()}>{choice}</th>
+                        <th key={useId()}>{choices[choice]}</th>
                     </tr>
                 ))}
             </div>

@@ -1,62 +1,17 @@
-import { FunctionComponent, MutableRefObject, useContext, useEffect, useRef, useState } from "react";
-import { QuizContext } from "../../pages/Quiz";
-import { OptionMenu, Option, SubmitOption } from "../OptionMenu/OptionMenu";
+import { FunctionComponent, useContext } from "react";
 import useGenerateQuestion from "../../hooks/useGenerateQuestion";
+import { OptionMenu } from "../OptionMenu/OptionMenu";
+import { QuizContext } from "../QuizCardContainer/QuizCardContainer";
+import SmartImage from "../SmartImage/SmartImage";
+import SubmitOption from "../SubmitOption/SubmitOption";
+import OptionButton from "../OptionButton/OptionButton";
 import API_KEYS from "../../configs/APIKeys";
-import styles from "./QuizCard.module.css";
 import { API_PATHS } from "../../configs/RouterPaths";
 
 interface IQuizCard {
     target: string;
     text: string;
 }
-
-const SmartImage: FunctionComponent<{ answerIndex: number }> = ({ answerIndex }) => {
-    const context = useContext(QuizContext);
-    const imgRef = useRef() as MutableRefObject<HTMLImageElement>;
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-
-    const fetchImage = async () => {
-        try {
-            setIsLoading(true);
-            let response = await fetch(
-                API_PATHS.images +
-                    new URLSearchParams({
-                        breed: context.breeds[answerIndex].name,
-                        api_key: API_KEYS.catAPI,
-                    })
-            );
-            const data = (await response.json())[0];
-            const preload = new Image();
-            preload.src = data.url;
-            preload.onload = () => {
-                setIsLoading(false);
-                imgRef.current.src = preload.src;
-            };
-        } catch (e) {
-            setIsError(true);
-        }
-    };
-
-    useEffect(() => {
-        fetchImage();
-    }, [context.quizState.pagesPassed]);
-
-    if (isError) {
-        return <h1>Error occured :/</h1>;
-    }
-    return (
-        <>
-            {isLoading && <p>Loading...</p>}
-            <img
-                className={isLoading ? styles.imageLoading : styles.image}
-                ref={imgRef}
-                alt="Cat image should be here"
-            />
-        </>
-    );
-};
 
 const QuizCard: FunctionComponent<IQuizCard> = ({ target, text }) => {
     const context = useContext(QuizContext);
@@ -67,12 +22,16 @@ const QuizCard: FunctionComponent<IQuizCard> = ({ target, text }) => {
             <p>
                 Pages passed {context.quizState.pagesPassed}/{context.quizState.maxPages}
             </p>
-            <SmartImage answerIndex={answerIndex} />
+            <SmartImage
+                path={API_PATHS.images}
+                paramsUrl={{ breeds: context.breeds[answerIndex], api_key: API_KEYS.catAPI }}
+                deps={[context.quizState.pagesPassed]}
+            />
             <p>{text}</p>
             <OptionMenu>
                 <div>
                     {options.map((option) => (
-                        <Option key={option} value={option} />
+                        <OptionButton key={option} value={option} />
                     ))}
                 </div>
                 <SubmitOption answer={answer} />

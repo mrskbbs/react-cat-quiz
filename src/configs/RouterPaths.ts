@@ -1,6 +1,7 @@
 export const APP_PATHS = {
     home: "/",
     quiz: "/quiz",
+    quizResult: "result",
 };
 
 export const API_PATHS = {

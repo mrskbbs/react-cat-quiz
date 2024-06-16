@@ -1,3 +1,4 @@
+//Data here is a backup, just in case, otherwise everything loads dynamically
 const BREEDS: { [key: string]: any }[] = [
     {
         weight: { imperial: "7  -  10", metric: "3 - 5" },
