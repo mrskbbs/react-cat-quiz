@@ -1,0 +1,9 @@
+.error {
+    transition: 0.25s ease-in-out;
+}
+.errorVisible {
+    color: var(--red);
+}
+.errorInvisible {
+    color: var(--transp);
+}

@@ -1,10 +1,41 @@
+:root {
+    --white: #fdfffcff;
+    --red: #e94f37ff;
+    --black: rgb(29, 30, 31);
+    --green: #4daa57ff;
+    --blue: #7494eaff;
+    --transp: rgba(0, 0, 0, 0%);
+    --gray: rgb(87, 87, 87);
+}
 html,
 body {
+    height: 100vh;
     margin: 0em;
+    background: var(--black);
+    color: var(--white);
+    font-family: "Roboto";
+    font-weight: 400;
 }
-.correct {
-    color: rgb(159, 199, 99);
+p {
+    font-weight: 300;
 }
-.wrong {
-    color: rgb(203, 91, 91);
+button {
+    font-weight: 300;
+}
+#root {
+    height: 100%;
+}
+.buttonUi {
+    background-color: rgba(0, 0, 0, 0%);
+    padding: 0.75em;
+    color: var(--blue);
+    border: 0.1em var(--blue) solid;
+    border-radius: 0.5em;
+    transition: 0.5s ease-in;
+}
+.buttonUi:hover {
+    background-color: rgba(116, 148, 234, 15%);
+}
+.buttonUi:active {
+    background-color: rgba(116, 148, 234, 65%);
 }

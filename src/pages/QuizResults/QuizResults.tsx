@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import { APP_PATHS } from "../configs/RouterPaths";
-import { generateResultMessage } from "../misc/misc";
+import { APP_PATHS } from "../../configs/RouterPaths";
+import { generateResultMessage } from "../../misc/misc";
 import { useId } from "react";
+import styles from "./QuizResults.module.css";
 interface IQuizResults {
     score: number;
     choices: Record<string, string>;
@@ -18,24 +19,28 @@ const QuizResults = () => {
     const message = generateResultMessage(ratio);
 
     return (
-        <div>
+        <div className={styles.layout}>
             <div>
                 <h1>
                     {score}/{choicesLength}
                 </h1>
-                <p>{message}</p>
+                <h1>{message}</h1>
             </div>
             <div>
                 <p>Here are your answers:</p>
-                {Object.keys(choices).map((choice: string) => (
-                    <tr key={useId()}>
-                        <th key={useId()}>{choice}</th>
-                        <th key={useId()}>{choices[choice]}</th>
-                    </tr>
-                ))}
+                <table>
+                    <tbody>
+                        {Object.keys(choices).map((choice: string) => (
+                            <tr key={useId()} className={choices[choice] === choice ? styles.correct : styles.wrong}>
+                                <th key={useId()}>{choice}</th>
+                                <th key={useId()}>{choices[choice]}</th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
             <Link to={APP_PATHS.home}>
-                <button>Go to home</button>
+                <button className="buttonUi">Go to home</button>
             </Link>
         </div>
     );

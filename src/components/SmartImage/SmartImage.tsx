@@ -1,5 +1,7 @@
 import { FunctionComponent, useRef, MutableRefObject, useState, useEffect } from "react";
 import styles from "./SmartImage.module.css";
+import { Navigate } from "react-router-dom";
+import { APP_PATHS } from "../../configs/RouterPaths";
 
 interface ISmartImage {
     path: string;
@@ -34,12 +36,12 @@ const SmartImage: FunctionComponent<ISmartImage> = ({ path, paramsUrl, deps }) =
     }, deps);
 
     if (isError) {
-        return <h1>Error occured :/</h1>;
+        return <Navigate to={APP_PATHS.home} />;
     }
 
     return (
         <>
-            {isLoading && <p>Loading...</p>}
+            {isLoading && <div className={styles.loading}>Loading...</div>}
             <img
                 className={isLoading ? styles.imageLoading : styles.image}
                 ref={imgRef}

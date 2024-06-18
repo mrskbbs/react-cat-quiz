@@ -1,6 +1,7 @@
 import { FunctionComponent, useContext, useCallback } from "react";
 import { QuizContext } from "../QuizCardContainer/QuizCardContainer";
 import { OptionMenuContext } from "../OptionMenu/OptionMenu";
+import styles from "./SubmitOption.module.css";
 
 const SubmitOption: FunctionComponent<{ answer: string }> = ({ answer }) => {
     const { selected, changeSelected } = useContext(OptionMenuContext);
@@ -20,8 +21,13 @@ const SubmitOption: FunctionComponent<{ answer: string }> = ({ answer }) => {
     const isSelectedEmpty = selected.replace(" ", "") === "";
     return (
         <>
-            <button onClick={isSelectedEmpty ? () => {} : () => submit(selected, answer)}> Submit </button>
-            {isSelectedEmpty && <p>You must pick a value before submiting</p>}
+            <button className="buttonUi" onClick={isSelectedEmpty ? () => {} : () => submit(selected, answer)}>
+                {" "}
+                Submit{" "}
+            </button>
+            <p className={`${styles.error} ${isSelectedEmpty ? styles.errorVisible : styles.errorInvisible}`}>
+                You must pick a value before submiting
+            </p>
         </>
     );
 };

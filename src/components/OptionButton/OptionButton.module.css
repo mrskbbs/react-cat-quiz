@@ -1,8 +1,16 @@
-.optionSelected {
-    background-color: cornflowerblue;
-    color: white;
+.selected {
+    padding: 1.2em;
+    border: 0.1em solid var(--blue);
+    border-radius: 1.5em;
+    background-color: var(--blue);
+    color: var(--white);
+    transition: 0.5s ease-in-out;
 }
-.option {
-    background: white;
-    color: black;
+.unselected {
+    padding: 1.2em;
+    border: 0.1em solid var(--blue);
+    border-radius: 1em;
+    background-color: var(--transp);
+    color: var(--blue);
+    transition: 0.5s ease-in-out;
 }

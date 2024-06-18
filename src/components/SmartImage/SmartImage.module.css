@@ -1,6 +1,18 @@
 .image {
-    height: 20em;
+    height: 40%;
+    max-width: 90%;
+    border: 0.1em solid var(--blue);
+    border-radius: 1em;
 }
 .imageLoading {
     display: none;
+}
+.loading {
+    height: 40%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    background-color: rgba(0, 0, 0, 20%);
 }

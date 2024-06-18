@@ -7,7 +7,7 @@ const OptionButton: FunctionComponent<{ value: string }> = ({ value }) => {
     return (
         <button
             onClick={() => changeSelected(value)}
-            className={value === selected ? styles.optionSelected : styles.option}
+            className={`${styles.option} ${value === selected ? styles.selected : styles.unselected} }`}
         >
             {value}
         </button>

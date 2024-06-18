@@ -2,6 +2,7 @@ export const APP_PATHS = {
     home: "/",
     quiz: "/quiz",
     quizResult: "result",
+    error: "error",
 };
 
 export const API_PATHS = {

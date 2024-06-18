@@ -1,0 +1,30 @@
+.layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 5em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.layout > div {
+    display: inherit;
+    flex-direction: inherit;
+    justify-content: center;
+    align-items: center;
+}
+table {
+    border-collapse: collapse;
+}
+th {
+    width: 50%;
+    padding: 2em;
+    border-top: 0.05em solid var(--gray);
+    border-bottom: 0.05em solid var(--gray);
+}
+.correct {
+    color: var(--green);
+}
+.wrong {
+    color: var(--red);
+}
